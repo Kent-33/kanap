@@ -45,6 +45,7 @@ fetch(" http://localhost:3000/api/products")
         productArticle.appendChild(productImg);
         productArticle.appendChild(productTitle);
         productArticle.appendChild(productDesc);
+        console.log(productImg);
        }
     })
 
