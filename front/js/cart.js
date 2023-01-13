@@ -19,8 +19,7 @@ function getProductsInCart() {
 
         var cartImg = document.createElement("div");
         cartImg.setAttribute("class", "cart__item__img");
-        var cartImgStringify = JSON.stringify(product.img)
-        cartImg.textContent = `${cartImgStringify}`;
+        cartImg.textContent = `${cartProduct.img}`;
         cartArticle.appendChild(cartImg);
 
         var cartItemContent = document.createElement("div");
@@ -39,3 +38,26 @@ function getProductsInCart() {
 
 
 getProductsInCart();
+
+function removeFromCart(product) {
+    let cart = getCart();
+    cart = cart.filter( p => p.id != product.id)
+    saveCart(product);
+}
+
+function changeQuantity(product, quantity) {
+    let cart = getCart();
+    let foundProductId = cart.find(p => p.id == product.id);
+    let foundProductColor = cart.find(p => p.color == product.color);
+    if(foundProductId != undefined) {
+        if(foundProductColor != undefined) {
+            foundProductId.quantity += quantity;
+            if(foundProductId.quantity <=0) {
+                removeFromCart(foundProductId);
+            }
+            else {
+                saveCart(cart);
+            }
+        }
+    }
+}
