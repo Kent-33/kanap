@@ -13,7 +13,7 @@ if(search_params.has('id')) {
 
 // Récupère les infos du produit dont l'id est donnée dans l'URL et les intègre dans le HTML
 
-fetch(`http://localhost:3000/api/products/${productId}`)
+fetch(`http://localhost:8000/api/products/${productId}`)
 .then( data => data.json())
 .then( jsonProduct => {
     let product = new Product(jsonProduct);
@@ -86,24 +86,19 @@ function getCart() {
 
 function addToCart() {
     var selectColor = document.getElementById('colors');
-    var curentProductColor = selectColor.options[selectColor.selectedIndex].value;;
+    var curentProductColor = selectColor.options[selectColor.selectedIndex].value;
     var curentProductQuantity = document.getElementById('quantity').value;
     var curentProductTitle = document.getElementById('title').textContent;
-    var itemImg = document.getElementsByClassName('item__img');
-    var productImg = itemImg;
     let product = {
             id : productId,
             color : curentProductColor,
             quantity : curentProductQuantity,
-            name : curentProductTitle, 
-            img : productImg
+            name : curentProductTitle
     }
-    console.log(productImg);
 
     if ((parseInt(curentProductQuantity) > 0) && (parseInt(curentProductQuantity) < 100)){
         let cart = getCart();
         let foundIndex = cart.findIndex(p => p.id == product.id && p.color == product.color);
-        console.log('Quantité selectionnée : ' + curentProductQuantity); 
 
         if (foundIndex != -1) {
             cart[foundIndex].quantity = parseInt(cart[foundIndex].quantity) + parseInt(curentProductQuantity);                   
@@ -111,8 +106,7 @@ function addToCart() {
             product.quantity = curentProductQuantity;
             cart.push(product);
         }
-            saveCart(cart);
-            console.log(product);
+        saveCart(cart);
     }
     else {
         alert('La quantité sélectionnée doit être comprise entre 1 et 99');
