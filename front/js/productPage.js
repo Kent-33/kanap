@@ -13,7 +13,7 @@ if(search_params.has('id')) {
 
 // Récupère les infos du produit dont l'id est donnée dans l'URL et les intègre dans le HTML
 
-fetch(`http://localhost:8000/api/products/${productId}`)
+fetch(`http://localhost:3000/api/products/${productId}`)
 .then( data => data.json())
 .then( jsonProduct => {
     let product = new Product(jsonProduct);
