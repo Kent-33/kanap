@@ -2,23 +2,6 @@
  * Gère l'affichage et les interactions de la page d'accueil
  */
 
-// fetch(" http://localhost:3000/api/products")
-//     .then( data => data.json())
-//     .then( jsonListProducts => {
-//        for(let jsonProduct of jsonListProducts) {
-
-//         let product = new Product(jsonProduct);
-//         const myList = document.getElementById('items');
-//         var productLink = document.createElement("a");
-//         var productContent = `<article><img src="${product.imageUrl}" alt="${product.altTxt}"><h3 class="productName">${product.name}</h3><p class="productDescription">${product.description}</p></a>`;
-        
-//         productLink.textContent = productContent;
-//         productLink.setAttribute("href", `./product.html?id=${product._id}`);
-        
-//         myList.appendChild(productLink)
-//        }
-//     })
-
 fetch(" http://localhost:3000/api/products")
     .then( data => data.json())
     .then( jsonListProducts => {
@@ -45,7 +28,6 @@ fetch(" http://localhost:3000/api/products")
         productArticle.appendChild(productImg);
         productArticle.appendChild(productTitle);
         productArticle.appendChild(productDesc);
-        console.log(productImg);
        }
     })
 

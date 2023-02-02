@@ -2,8 +2,7 @@
  * Gère l'affichage et les interactions de la page produit
  */
 
-// Identifie l'id produit passée dans l'URL
-
+// Identifie l'id produit passé dans l'URL
 var str = window.location.href;
 var url = new URL(str);
 var search_params = new URLSearchParams(url.search); 
@@ -12,7 +11,6 @@ if(search_params.has('id')) {
 }
 
 // Récupère les infos du produit dont l'id est donnée dans l'URL et les intègre dans le HTML
-
 fetch(`http://localhost:3000/api/products/${productId}`)
 .then( data => data.json())
 .then( jsonProduct => {
@@ -45,34 +43,8 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     }         
 });
 
-// Stock en localStorage l'id, la couleur et la quantité du produit
-
-// function addToCart() {    
-//     var selectColor = document.getElementById('colors');
-//     var curentProductColor = selectColor.options[selectColor.selectedIndex].value;;
-//     var curentProductQuantity = document.getElementById('quantity').value;
-//     var curentProductTitle = document.getElementById('title').textContent;
-//     let curentProductJson = {    
-//         [productId] : [curentProductColor, curentProductQuantity, curentProductTitle],
-//     }
-
-//     let curentProductLinea = JSON.stringify(curentProductJson);
-//     localStorage.setItem("cartProducts", curentProductLinea);
-
-// }
-
-// document.getElementById("addToCart").onclick = function() {  
-//     addToCart();
-// };  
-
- 
-document.getElementById("addToCart").onclick = function() {  
-    addToCart();
-}; 
-
 function saveCart(cart) {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    
+    localStorage.setItem("cart", JSON.stringify(cart));    
 }
 
 function getCart() {
@@ -112,3 +84,7 @@ function addToCart() {
         alert('La quantité sélectionnée doit être comprise entre 1 et 99');
     }
 }
+ 
+document.getElementById("addToCart").onclick = function() {  
+    addToCart();
+}; 
