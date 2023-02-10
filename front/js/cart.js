@@ -132,7 +132,6 @@ function removeFromCart(product, color) {
 
 // Change les quantités du panier à l'affichage et dans le local storage
 function changeQuantity(product, color) {    
-    console.log(color);
     var curentProductQuantity = document.querySelector("[data-id=\"" + product + "\"][data-color=\"" + color + "\"] .itemQuantity");  
     let cart = getCart(); 
     let foundIndex = cart.findIndex(p => p.id == product && p.color == color); 
@@ -156,6 +155,7 @@ function changeQuantity(product, color) {
     saveCart(cart);
     removeShowedCart();
 }
+
 // Calcule la quantité totale
 async function totalCartQuantity(quantity) {
     let finalQuantity = 0; 
@@ -175,11 +175,11 @@ async function totalCartPrice(price) {
 }
 
 document.getElementById("order")
-.addEventListener('click', function (e) {
-    e.preventDefault();
-    formValidation();
-    return false;
-});   
+    .addEventListener('click', function (e) {
+        e.preventDefault();
+        formValidation();
+        return false;
+    });   
 
 // Valide la commande et renvoie sur la page de confirmation
 async function formValidation() {
@@ -191,7 +191,7 @@ async function formValidation() {
     let regExMail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;    
     let processOrder = true;
     let cart = getCart();
-    let cartValidation = true
+    let cartValidation = true;
 
     if(cart.length < 1) {
         cartValidation = false;
@@ -231,14 +231,14 @@ async function formValidation() {
           products.push(product.id);
         }
         let response = await fetch('http://localhost:3000/api/products/order', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify({contact, products}),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({contact, products}),
         });    
         let result = await response.json();
-         document.location.href = 'confirmation.html?orderId=' + result.orderId;
+        document.location.href = 'confirmation.html?orderId=' + result.orderId;
     }
     
 }

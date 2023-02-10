@@ -12,6 +12,6 @@ if(search_params.has('orderId')) {
 
 // Affiche l'orderID
 if (orderId) {
-    let orderConfirmation = document.getElementById('orderId');
-    orderConfirmation.textContent = orderId;
+  let orderConfirmation = document.getElementById('orderId');
+  orderConfirmation.textContent = orderId;
 }

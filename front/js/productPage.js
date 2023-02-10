@@ -62,13 +62,18 @@ function addToCart() {
     var curentProductQuantity = document.getElementById('quantity').value;
     var curentProductTitle = document.getElementById('title').textContent;
     let product = {
-            id : productId,
-            color : curentProductColor,
-            quantity : curentProductQuantity,
-            name : curentProductTitle
+        id : productId,
+        color : curentProductColor,
+        quantity : curentProductQuantity,
+        name : curentProductTitle
+    }
+    let productHasColor = true; 
+
+    if (curentProductColor == '') {
+        productHasColor = false;
     }
 
-    if ((parseInt(curentProductQuantity) > 0) && (parseInt(curentProductQuantity) < 100)){
+    if ((parseInt(curentProductQuantity) > 0) && (parseInt(curentProductQuantity) < 100) && productHasColor){
         let cart = getCart();
         let foundIndex = cart.findIndex(p => p.id == product.id && p.color == product.color);
 
@@ -79,6 +84,9 @@ function addToCart() {
             cart.push(product);
         }
         saveCart(cart);
+    }
+    else if (!productHasColor) {
+        alert('Veuillez selectionner une couleur.');
     }
     else {
         alert('La quantité sélectionnée doit être comprise entre 1 et 99');
