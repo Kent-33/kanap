@@ -91,6 +91,7 @@ function addToCart() {
     else {
         alert('La quantité sélectionnée doit être comprise entre 1 et 99');
     }
+    alert('Votre produit à bien été ajouté au panier');
 }
  
 document.getElementById("addToCart").onclick = function() {  

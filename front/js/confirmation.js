@@ -15,3 +15,4 @@ if (orderId) {
   let orderConfirmation = document.getElementById('orderId');
   orderConfirmation.textContent = orderId;
 }
+

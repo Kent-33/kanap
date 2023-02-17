@@ -3,6 +3,8 @@
  */
 
 // Affiche le résumé du panier
+let productListPrice = [];
+
 function showCart() {
     let cartList = getCart();
     let totalProductsQuantity = [];      
@@ -85,26 +87,24 @@ function showCart() {
 
             document.querySelector("[data-id=\"" + cartProductId + "\"][data-color=\"" + cartProduct.color + "\"] .deleteItem")
                 .addEventListener('click', function () {
+                this.closest('article').remove();
                 removeFromCart(product._id, cartProduct.color);
             });     
-            
-            totalProductsPrice.push(parseInt(product.price) * parseInt(cartProduct.quantity));
-            totalCartPrice(totalProductsPrice);         
+            productListPrice[product._id] = product.price;
+            updateCart();         
         })
-        totalProductsQuantity.push(parseInt(cartProduct.quantity));
     }
-    totalCartQuantity(totalProductsQuantity);
 }
 showCart();
 
 // Supprime le code html affhant le panier et affiche le panier MAJ
-function removeShowedCart() {
-    var articlesCart = document.querySelectorAll("article");
-    for ( let i = 0; i < articlesCart.length; i++) {        
-        articlesCart[i].remove();
-    }
-    showCart();
-}
+// function removeShowedCart() {
+//     var articlesCart = document.querySelectorAll("article");
+//     for ( let i = 0; i < articlesCart.length; i++) {        
+//         articlesCart[i].remove();
+//     }
+//     showCart();
+// }
 
 // Enregistre la panier 
 function saveCart(cart) {
@@ -127,7 +127,8 @@ function removeFromCart(product, color) {
     let foundIndex = cart.findIndex(p => p.id == product && p.color == color); 
     cart.splice(foundIndex,1);    
     saveCart(cart);
-    removeShowedCart();
+    updateCart();
+    console.log(product, color);
 }
 
 // Change les quantités du panier à l'affichage et dans le local storage
@@ -141,8 +142,9 @@ function changeQuantity(product, color) {
     } 
     else if (parseInt(curentProductQuantity.value) < 1){
         if (confirm('Souhaitez vous supprimer ce produit du panier ?')) {
+            curentProductQuantity.closest('article').remove();
             removeFromCart(product, color);
-            removeShowedCart()
+            return;
         }
         else {
             newQuantity = parseInt(prompt("Chosissez une nouvelle quantité"));
@@ -153,24 +155,23 @@ function changeQuantity(product, color) {
         alert('Le kanap ' + cart[foundIndex].name + ' ne peut pas être commandé en plus de 100 exemplaires.');
     }
     saveCart(cart);
-    removeShowedCart();
+    updateCart();
 }
 
 // Calcule la quantité totale
-async function totalCartQuantity(quantity) {
+async function updateCart() {
     let finalQuantity = 0; 
-    for (let i = 0; i < quantity.length; i++) {
-        finalQuantity += quantity[i];
-    }
-    document.getElementById('totalQuantity').textContent = finalQuantity;
-}
-
-// Calcule le prix total
-async function totalCartPrice(price) {
     let finalPrice = 0; 
-    for (let i = 0; i < price.length; i++) {
-        finalPrice += price[i];
-    }
+    let articleList = document.querySelectorAll('article.cart__item');
+    articleList.forEach(function(item) {
+        let pdtId = item.getAttribute('data-id');
+        let pdtPrice = productListPrice[pdtId];
+        let pdtQuantity = parseInt(item.getElementsByClassName('itemQuantity')[0].value);
+        finalQuantity += pdtQuantity;
+        finalPrice += pdtPrice * pdtQuantity;
+    });
+
+    document.getElementById('totalQuantity').textContent = finalQuantity;
     document.getElementById('totalPrice').textContent = finalPrice;
 }
 
@@ -240,6 +241,6 @@ async function formValidation() {
         let result = await response.json();
         document.location.href = 'confirmation.html?orderId=' + result.orderId;
     }
-    
+    localStorage.clear();
 }
     
